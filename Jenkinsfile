@@ -11,24 +11,25 @@ pipeline {
         stage('Instalar dependencias y pruebas') {
             steps {
                 sh '''
-                    pip install -r app/requirements.txt
-                    pytest tests/
+                    sudo apt-get install -y python3-pip
+                    pip3 install -r app/requirements.txt
+                    python3 -m pytest tests/
                 '''
             }
         }
 
         stage('Build con Docker') {
             steps {
-                sh 'docker build -t mi-app-flask ./app'
+                sh 'sudo docker build -t mi-app-flask ./app'
             }
         }
 
         stage('Deploy local con Docker') {
             steps {
                 sh '''
-                    docker stop mi-app-flask || true
-                    docker rm mi-app-flask || true
-                    docker run -d --name mi-app-flask -p 5000:5000 mi-app-flask
+                    sudo docker stop mi-app-flask || true
+                    sudo docker rm mi-app-flask || true
+                    sudo docker run -d --name mi-app-flask -p 5000:5000 mi-app-flask
                 '''
             }
         }

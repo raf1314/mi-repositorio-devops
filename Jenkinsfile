@@ -11,8 +11,8 @@ pipeline {
         stage('Instalar dependencias y pruebas') {
             steps {
                 sh '''
-                    sudo apt-get install -y python3-pip
-                    pip3 install -r app/requirements.txt
+                    sudo apt-get install -y python3-pip -q
+                    pip3 install -r app/requirements.txt --break-system-packages
                     python3 -m pytest tests/
                 '''
             }
